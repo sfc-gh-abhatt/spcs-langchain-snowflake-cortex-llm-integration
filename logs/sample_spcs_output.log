@@ -1,0 +1,57 @@
+/usr/local/lib/python3.11/site-packages/langchain_snowflake/chat_models/base.py:26: UserWarning: Field name "schema" in "ChatSnowflake" shadows an attribute in parent "BaseChatModel"
+  class ChatSnowflake(
+============================================================
+SPCS Test: LangChain + ChatSnowflake + Cortex
+============================================================
+
+[1/4] Detecting environment...
+  SNOWFLAKE_HOST = myorg-myaccount.us-east-2.aws.snowflakecomputing.com
+  Token file exists = True
+  Running inside SPCS container.
+
+  Creating session using SNOWFLAKE_HOST + token...
+  Connecting with account=myorg-myaccount.us-east-2.aws, host=myorg-myaccount.us-east-2.aws.snowflakecomputing.com
+  Connected: account=AB12345, region=PUBLIC.AWS_US_EAST_2, warehouse=COMPUTE_WH
+
+[2/4] Initializing ChatSnowflake with model=claude-4-sonnet...
+  Cortex inference OK: hello
+
+[3/4] Setting up tool-calling LLM with SnowflakeQueryTool...
+  Tools bound to LLM.
+
+[4/4] Running test questions (tool-calling path)...
+
+------------------------------------------------------------
+
+Q1: What tables are available and how many rows does each have?
+----------------------------------------
+  [Tool call] snowflake_query: {'query': "SELECT TABLE_NAME, ROW_COUNT FROM DEMO_DB.INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CLINICAL' ORDER BY ROW_COUNT DESC"}
+A1: Here are the tables available in the CLINICAL schema:
+
+| Table | Rows |
+|-------|------|
+| DIAGNOSES | 1,448 |
+| VISITS | 900 |
+| MEDICATIONS | 869 |
+| PATIENTS | 203 |
+| PROVIDERS | 32 |
+
+Total: 5 tables with 3,452 rows across all tables.
+------------------------------------------------------------
+
+Q2: Show me the first 5 rows of the largest table.
+----------------------------------------
+  [Tool call] snowflake_query: {'query': 'SELECT * FROM DEMO_DB.CLINICAL.DIAGNOSES LIMIT 5'}
+A2: Here are the first 5 rows of the DIAGNOSES table (the largest table with 1,448 rows):
+
+| DIAGNOSIS_ID | VISIT_ID | ICD10_CODE | DESCRIPTION |
+|---|---|---|---|
+| D00001 | V00001 | I10 | Essential (primary) hypertension |
+| D00002 | V00001 | F41.1 | Generalized anxiety disorder |
+| D00003 | V00002 | M54.5 | Low back pain |
+| D00004 | V00003 | B34.9 | Viral infection, unspecified |
+| D00005 | V00004 | F32.9 | Major depressive disorder, single episode, unspecified |
+------------------------------------------------------------
+
+
+Done. All questions processed successfully in SPCS.
