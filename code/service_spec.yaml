@@ -1,0 +1,21 @@
+# Generated with Cortex Code (https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code)
+#
+# Reference only — not used directly by the service creation.
+# The deploy_spcs.sql script uses an inline SPECIFICATION block with the same content.
+# This file is provided for readability and as a template for customization.
+
+spec:
+  containers:
+    - name: langchain-cortex-container
+      image: /<your_database>/<your_schema>/spcs_image_registry/langchain-cortex-demo:latest
+      env:
+        SNOWFLAKE_DATABASE: <YOUR_DATABASE>
+        SNOWFLAKE_SCHEMA: <YOUR_SCHEMA>
+        SNOWFLAKE_WAREHOUSE: <YOUR_WAREHOUSE>
+      resources:
+        requests:
+          cpu: 1
+          memory: 2Gi
+        limits:
+          cpu: 2
+          memory: 4Gi
